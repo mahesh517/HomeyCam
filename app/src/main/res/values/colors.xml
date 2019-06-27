@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="canle_color">#FC2C00</color>
+    <color name="nav_bg_color">#CC595959</color>
+    <color name="transparent">@android:color/transparent</color>
+    <color name="white">@android:color/white</color>
+    <color name="black">@android:color/black</color>
+    <color name="trans_white">#16FFFFFF</color>
+    <color name="button_color">#395e92</color>
+    <color name="edittext_bg">#48E0E0E0</color>
+    <color name="toolbar_color">#CBDDF0</color>
+    <color name="light_gray">#D3D3D3</color>
+
+    <color name="dialog_traspe">#99000000</color>
+
+
+    <color name="colorBackground">#F8F8F8</color>
+    <color name="colorNavAccentSelected">#9D0E15</color>
+    <color name="colorNavAccentUnselected">#727272</color>
+</resources>

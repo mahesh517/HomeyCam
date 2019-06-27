@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_blur"
+    android:orientation="vertical"
+    tools:context=".Activities.LoginActivity">
+
+    <ImageView
+        android:id="@+id/useLogo"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="@dimen/large_margin"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="@dimen/large_margin"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/sukam_logo" />
+
+    <EditText
+        android:id="@+id/email_text"
+        android:layout_width="300dp"
+        android:layout_height="75dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="43dp"
+        android:background="@drawable/white_bg"
+        android:drawableStart="@drawable/user_resize"
+        android:drawablePadding="@dimen/large_margin"
+        android:ems="10"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:paddingStart="@dimen/small_margin"
+        android:textColorHint="@color/light_gray"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="300dp"
+        android:layout_height="75dp"
+        android:layout_below="@+id/email_text"
+        android:layout_alignStart="@+id/email_text"
+        android:layout_marginTop="-10dp"
+        android:background="@drawable/white_bg"
+        android:drawableStart="@drawable/password_resize"
+        android:drawablePadding="@dimen/large_margin"
+        android:ems="10"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:paddingStart="@dimen/small_margin"
+        android:textColorHint="@color/light_gray"
+        android:textStyle="bold" />
+
+
+    <EditText
+        android:id="@+id/confirm_password"
+        android:layout_width="300dp"
+        android:layout_height="75dp"
+        android:layout_below="@+id/password"
+        android:layout_alignStart="@+id/email_text"
+        android:layout_marginTop="-10dp"
+        android:background="@drawable/white_bg"
+        android:drawableStart="@drawable/password_resize"
+        android:drawablePadding="@dimen/large_margin"
+        android:ems="10"
+        android:hint="@string/confrim_password"
+        android:imeOptions="actionDone"
+        android:inputType="textPassword"
+        android:paddingStart="@dimen/small_margin"
+        android:textColorHint="@color/light_gray"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/sign_up"
+        android:layout_width="300dp"
+        android:layout_height="65dp"
+        android:layout_below="@+id/confirm_password"
+        android:layout_alignStart="@+id/email_text"
+        android:layout_marginTop="@dimen/small_img_size"
+        android:background="@drawable/blue_background"
+        android:text="@string/get_start"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/create_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/get_start"
+        android:layout_alignBottom="@+id/get_start"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="3dp"
+        android:layout_marginBottom="@dimen/small_img_size"
+        android:text=""
+        android:textColor="@color/black"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/sigin_in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/get_start"
+        android:layout_alignBottom="@+id/get_start"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="49dp"
+        android:layout_marginRight="49dp"
+        android:layout_marginBottom="31dp"
+        android:layout_toEndOf="@+id/get_start"
+        android:text="Sign In"
+        android:textColor="@color/black" />
+
+
+</RelativeLayout>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <!--Common text sizes-->
+    <dimen name="text_size_14">14sp</dimen>
+    <dimen name="text_size_12">12sp</dimen>
+    <dimen name="text_size_10">10sp</dimen>
+    <dimen name="text_size_16">16sp</dimen>
+    <dimen name="text_size_18">18sp</dimen>
+
+    <!--Common margins-->
+
+    <dimen name="small_margin">5dp</dimen>
+    <dimen name="large_margin">10dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="activity_horizantal_margin">16dp</dimen>
+    <dimen name="lowest_margin">1dp</dimen>
+
+
+    <!--Image sizes-->
+
+    <dimen name="normal_img_size">50dp</dimen>
+    <dimen name="small_img_size">25dp</dimen>
+    <dimen name="large_img_size">100dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="nav_header_vertical_spacing">16dp</dimen>
+    <dimen name="nav_header_height">200dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+
+    <dimen name="actionbar_size">46dp</dimen>
+
+    <!-- Margin & Padding -->
+    <dimen name="margin_2dp">2dp</dimen>
+    <dimen name="margin_3dp">3dp</dimen>
+    <dimen name="margin_4dp">4dp</dimen>
+    <dimen name="activity_margin">16dp</dimen>
+    <dimen name="padding_xxx_large">40dp</dimen>
+    <dimen name="padding_xx_large">32dp</dimen>
+    <dimen name="padding_x_large">20dp</dimen>
+    <dimen name="padding_large">15dp</dimen>
+    <dimen name="padding_medium">10dp</dimen>
+    <dimen name="padding_small">8dp</dimen>
+    <dimen name="padding_x_small">4dp</dimen>
+
+    <dimen name="margin_very_extra_large">70dp</dimen>
+    <dimen name="margin_very_large">48dp</dimen>
+    <dimen name="margin_xxx_large">40dp</dimen>
+    <dimen name="margin_xx_large">32dp</dimen>
+    <dimen name="margin_x_large">20dp</dimen>
+    <dimen name="margin_large">15dp</dimen>
+    <dimen name="margin_medium">10dp</dimen>
+    <dimen name="margin_small">8dp</dimen>
+    <dimen name="margin_x_small">4dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+
+    <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:
+         https://developer.android.com/design/patterns/navigation-drawer.html -->
+    <dimen name="navigation_drawer_width">240dp</dimen>
+
+    <!--Loading Progressbar-->
+    <dimen name="LoadingDots_dots_size_default">12dp</dimen>
+    <dimen name="LoadingDots_dots_space_default">2dp</dimen>
+    <dimen name="LoadingDots_jump_height_default">12dp</dimen>
+
+
+    <!-- Text sizes (sp) -->
+
+    <!--Headings-->
+    <dimen name="text_heading_x_large">28sp</dimen>
+    <dimen name="text_heading_large">24sp</dimen>
+    <dimen name="text_heading">18sp</dimen>
+    <!--Buttons, input fields-->
+    <dimen name="text_body">16sp</dimen>
+    <!--links-->
+    <dimen name="text_caption">14sp</dimen>
+    <!--captions-->
+    <dimen name="text_caption_small">12sp</dimen>
+    <dimen name="textsize_small">11sp</dimen>
+    <!--Bottom navigation-->
+    <dimen name="text_menu">10sp</dimen>
+
+
+    <dimen name="design_navigation_separator_vertical_padding">0dp</dimen>
+
+    <integer name="swing_anim_time">750</integer>
+
+
+</resources>

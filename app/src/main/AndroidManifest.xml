@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.app.homeycam">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:name=".AppController.HomeyCam"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:allowBackup">
+        <activity android:name=".Activities.PlayVidoeActivty"></activity>
+        <activity android:name=".Activities.DevicesActivity" />
+        <activity
+            android:name=".Activities.UserHistoryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.UserActivty"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.AccountActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.GuestActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.FamilyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.LiveVideoActivity"
+            android:label="@string/title_activity_live_video"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.DashBoard"
+            android:label="@string/title_activity_dash_board"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.SplashScreenActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activities.LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Activities.RegisterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.HomeActivity"
+            android:screenOrientation="portrait" /> <!-- Notification service -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/wifi_bg" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorPrimary" />
+
+        <service android:name=".FCM.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".FCM.MyFirebaseMessagingService"
+            android:enabled="true"
+            tools:ignore="InnerclassSeparator">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/map_key" />
+    </application>
+
+</manifest>
