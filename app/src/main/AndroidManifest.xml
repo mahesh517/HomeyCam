@@ -23,7 +23,7 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup">
-        <activity android:name=".Activities.PlayVidoeActivty"></activity>
+        <activity android:name=".Activities.PlayVidoeActivty" />
         <activity android:name=".Activities.DevicesActivity" />
         <activity
             android:name=".Activities.UserHistoryActivity"

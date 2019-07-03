@@ -3,14 +3,10 @@ package com.app.homeycam.Adapters;
 import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v7.recyclerview.extensions.ListAdapter;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SwitchCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,13 +18,9 @@ import com.app.homeycam.R;
 import com.app.homeycam.Rawheaders.Settings.ItemType;
 import com.app.homeycam.Rawheaders.Settings.Model;
 import com.app.homeycam.Utils.LoginPrefManager;
-import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.Socket;
 import com.kodmap.library.kmrecyclerviewstickyheader.KmStickyListener;
 import com.suke.widget.SwitchButton;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.Calendar;
 

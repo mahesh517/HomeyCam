@@ -40,7 +40,8 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:layout_weight="1">
 
             <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/user_pic"
@@ -60,6 +61,14 @@
 
         </FrameLayout>
 
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/small_margin"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_18" />
 
     </LinearLayout>
 
@@ -119,7 +128,8 @@
 
                 </LinearLayout>
 
-                <android.support.v7.widget.SwitchCompat
+                <com.suke.widget.SwitchButton
+                    android:id="@+id/switch_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 

@@ -52,7 +52,14 @@ public class AddMemberDialog extends Dialog {
         exist_users_view.setLayoutManager(new LinearLayoutManager(context));
         exist_users_view.setHasFixedSize(true);
 
+        cancel = findViewById(R.id.btn_cancel);
 
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
         add_member.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,7 +80,7 @@ public class AddMemberDialog extends Dialog {
         }, names);
 
         exist_users_view.setAdapter(nameAdapter);
-        cancel = findViewById(R.id.btn_cancel);
+
     }
 
 

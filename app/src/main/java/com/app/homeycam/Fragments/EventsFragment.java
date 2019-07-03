@@ -22,6 +22,7 @@ import android.widget.VideoView;
 
 import com.app.homeycam.Activities.PlayVidoeActivty;
 import com.app.homeycam.Adapters.EventAdapter;
+import com.app.homeycam.AppController.HomeyCam;
 import com.app.homeycam.CustomDailogs.EventDialog;
 import com.app.homeycam.R;
 import com.app.homeycam.ServiceApi.APIServiceFactory;
@@ -85,6 +86,8 @@ public class EventsFragment extends BaseFragment {
 
     String event_video_url, event_name;
 
+    private Socket event_socket;
+
     public static EventsFragment newInstance() {
         return new EventsFragment();
     }
@@ -92,6 +95,10 @@ public class EventsFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        HomeyCam homeyCam = (HomeyCam) getActivity().getApplication();
+        event_socket = homeyCam.getSocket();
+        event_socket.connect();
     }
 
     @Override
@@ -112,13 +119,14 @@ public class EventsFragment extends BaseFragment {
         events.setLayoutManager(new LinearLayoutManager(getActivity()));
         events.setHasFixedSize(true);
 
-        connectSocket(0);
         onClickevents();
 
-        if (local_socket != null) {
+
+        if (event_socket != null) {
+
+            Log.e("event_socket", "--" + event_socket.connected());
             emit_Events();
         } else {
-            Log.e("local_socket", "--" + local_socket.connected());
         }
         return view;
     }
@@ -170,15 +178,15 @@ public class EventsFragment extends BaseFragment {
 
         try {
             jsonObject.put("product_id", loginPrefManager.getStringValue("product_id"));
+//            jsonObject.put("product_id", "5d076b61c388e5037e0ef75d");
             jsonObject.put("event_type", "alltype");
 //            jsonObject.put("multipleface", "alltype");
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        Log.e("jsonObject", jsonObject.toString());
 
-        local_socket.emit("alloccurevent", jsonObject);
+        event_socket.emit("alloccurevent", jsonObject);
 
         checkevents();
 
@@ -186,11 +194,11 @@ public class EventsFragment extends BaseFragment {
 
     private void checkevents() {
 
-//        Log.e("check", "----");
+        Log.e("check", "----");
 
-//        Log.e("local_socket", "--" + local_socket.connected());
+//        Log.e("event_socket", "--" + event_socket.connected());
 
-        local_socket.on("alloccurevent", new Emitter.Listener() {
+        event_socket.on("alloccurevent", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
 
@@ -202,7 +210,6 @@ public class EventsFragment extends BaseFragment {
                     JSONObject events = data.getJSONObject("data");
                     total_array = events.getJSONArray("all");
 
-                    Log.e("total_array-1", "--" + total_array.length());
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -227,7 +234,7 @@ public class EventsFragment extends BaseFragment {
 
     private void check_live_events() {
 
-        local_socket.on("occurevent", new Emitter.Listener() {
+        event_socket.on("occurevent", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
                 JSONObject data = (JSONObject) args[0];
@@ -256,37 +263,11 @@ public class EventsFragment extends BaseFragment {
         });
     }
 
-    private Socket connectSocket(int i) {
-
-
-        IO.Options opts = new IO.Options();
-        opts.forceNew = true;
-        opts.reconnection = true;
-        opts.query = "token=" + loginPrefManager.getUserToken() + "&type_of_token=" + "user";
-//        Log.e("opts", opts.query);
-        try {
-            local_socket = IO.socket(APIServiceFactory.BASE_URL, opts);
-
-            local_socket.connect();
-
-            local_socket.on("auth", new Emitter.Listener() {
-                @Override
-                public void call(Object... args) {
-                    Log.e("auth_data:", new Gson().toJson(args));
-                }
-            });
-
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        return local_socket;
-    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
 
-        local_socket.disconnect();
     }
 
 
@@ -295,7 +276,7 @@ public class EventsFragment extends BaseFragment {
 
         try {
 
-            Log.e("setData", "---");
+//            Log.e("setData", "---");
 
             selected = new JSONArray();
             for (int i = 0; i < total_array.length(); i++) {
@@ -358,7 +339,7 @@ public class EventsFragment extends BaseFragment {
         }
 
 
-        local_socket.emit("eventReq", jsonObject);
+        event_socket.emit("eventReq", jsonObject);
 
         listen_event_data();
 
@@ -368,7 +349,7 @@ public class EventsFragment extends BaseFragment {
 
         Log.e("listen_", "emit_single_");
 
-        local_socket.on("eventRespond", new Emitter.Listener() {
+        event_socket.on("eventRespond", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
                 JSONObject data = (JSONObject) args[0];

@@ -105,7 +105,7 @@ public class FacesAdapter extends RecyclerView.Adapter<FacesAdapter.MyViewHolder
                     try {
                         innerObj = jsonArray.getJSONObject(i);
 
-                        Log.e("inner", innerObj.toString());
+//                        Log.e("inner", innerObj.toString());
 
                         String id = innerObj.getString("_id");
                         if (innerObj.has("person_name")) {
@@ -207,5 +207,6 @@ public class FacesAdapter extends RecyclerView.Adapter<FacesAdapter.MyViewHolder
     public interface FaceInterface {
         void onFaceclicked(boolean name_status, String id, String jsonObject);
     }
+
 
 }

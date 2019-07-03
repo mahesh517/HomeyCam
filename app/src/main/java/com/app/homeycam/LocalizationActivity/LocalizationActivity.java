@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.app.homeycam.AppController.HomeyCam;
 import com.app.homeycam.PermissionChecker.PermissionHelper;
 import com.app.homeycam.ProgressBar.Loader;
 import com.app.homeycam.R;
@@ -83,18 +84,9 @@ public class LocalizationActivity extends AppCompatActivity implements OnLocaleC
         activityManager = (ActivityManager) getApplication().getSystemService(Activity.ACTIVITY_SERVICE);
         permissionHelper = new PermissionHelper(LocalizationActivity.this);
 
-//        connectSocket(1);
-//
-        if (local_socket != null) {
-            if (local_socket.connected()) {
-            } else {
-                connectSocket(1);
-            }
-        } else {
-
-            connectSocket(1);
-        }
-
+        HomeyCam homeyCam = (HomeyCam) getApplication();
+        local_socket = homeyCam.getSocket();
+        local_socket.connect();
 
     }
 
@@ -428,6 +420,9 @@ public class LocalizationActivity extends AppCompatActivity implements OnLocaleC
     }
 
     private Socket connectSocket(int i) {
+
+
+        Log.e("FromLocazation", "----");
 
         ActivityManager.RunningTaskInfo runningTaskInfo = activityManager.getRunningTasks(26).get(0);
 

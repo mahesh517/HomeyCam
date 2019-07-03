@@ -18,10 +18,12 @@ import com.app.homeycam.Activities.DevicesActivity;
 import com.app.homeycam.Activities.FamilyActivity;
 import com.app.homeycam.Activities.GuestActivity;
 import com.app.homeycam.Adapters.RecyclerViewAdapter;
+import com.app.homeycam.AppController.HomeyCam;
 import com.app.homeycam.R;
 import com.app.homeycam.Rawheaders.Settings.ItemType;
 import com.app.homeycam.Rawheaders.Settings.Model;
 import com.github.nkzawa.emitter.Emitter;
+import com.github.nkzawa.socketio.client.Socket;
 import com.kodmap.library.kmrecyclerviewstickyheader.KmHeaderItemDecoration;
 
 import org.json.JSONException;
@@ -40,6 +42,7 @@ public class SettingsFragment extends BaseFragment {
 
     String localip;
 
+    private Socket setting_socket;
     public static SettingsFragment newInstance() {
         return new SettingsFragment();
     }
@@ -50,9 +53,11 @@ public class SettingsFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_third, container, false);
 
 
+
+        HomeyCam homeyCam = (HomeyCam) getActivity().getApplication();
+        setting_socket = homeyCam.getSocket();
+        setting_socket.connect();
         getProductInfo(view);
-
-
         return view;
     }
 
@@ -61,7 +66,7 @@ public class SettingsFragment extends BaseFragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new RecyclerViewAdapter(getActivity(), local_socket, recording_start, recording_end, status, new RecyclerViewAdapter.SettingInterface() {
+        adapter = new RecyclerViewAdapter(getActivity(), setting_socket, recording_start, recording_end, status, new RecyclerViewAdapter.SettingInterface() {
             @Override
             public void onClick(String name) {
                 Log.e("name", "--" + name);
@@ -86,14 +91,14 @@ public class SettingsFragment extends BaseFragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        local_socket.emit("getLocalIp", jsonObject);
+        setting_socket.emit("getLocalIp", jsonObject);
 
         listenLocalip();
     }
 
     private void listenLocalip() {
 
-        local_socket.on("sendUserToLocalIp", new Emitter.Listener() {
+        setting_socket.on("sendUserToLocalIp", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
 
@@ -281,22 +286,24 @@ public class SettingsFragment extends BaseFragment {
 
     private void getProductInfo(View view) {
 
-        JSONObject jsonObject = new JSONObject();
 
-        try {
-            jsonObject.put("product_id", loginPrefManager.getStringValue("product_id"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        initAdapter(view, loginPrefManager.getStringValue("recording_start"), loginPrefManager.getStringValue("recording_end"), loginPrefManager.getStringValue("recording_status"));
 
-        local_socket.emit("fetchProductInfo", jsonObject);
+//        JSONObject jsonObject = new JSONObject();
+//
+//        try {
+//            jsonObject.put("product_id", loginPrefManager.getStringValue("product_id"));
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
 
-        productDetails(view);
+
+//        productDetails(view);
     }
 
     private void productDetails(View view) {
 
-        local_socket.on("fetchProductInfo", new Emitter.Listener() {
+        setting_socket.on("fetchProductInfo", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
 
@@ -321,7 +328,7 @@ public class SettingsFragment extends BaseFragment {
                             String recording_end = settings.getString("recording_end");
                             String status = settings.getString("recording_status");
 
-                            initAdapter(view, recording_start, recording_end, status);
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

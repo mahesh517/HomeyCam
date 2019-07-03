@@ -18,15 +18,16 @@ import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
-import com.app.homeycam.Activities.FamilyActivity;
 import com.app.homeycam.Activities.UserActivty;
 import com.app.homeycam.Adapters.FacesAdapter;
+import com.app.homeycam.AppController.HomeyCam;
 import com.app.homeycam.CustomDailogs.AddMemberDialog;
 import com.app.homeycam.CustomDailogs.NewNameDialog;
 import com.app.homeycam.CustomeViews.SpacesItemDecoration;
 import com.app.homeycam.R;
 import com.app.homeycam.ServiceApi.APIServiceFactory;
 import com.github.nkzawa.emitter.Emitter;
+import com.github.nkzawa.socketio.client.Socket;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,9 +36,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Adib on 13-Apr-17.
- */
 
 public class LiveFragment extends BaseFragment implements MediaPlayer.OnPreparedListener {
 
@@ -64,6 +62,9 @@ public class LiveFragment extends BaseFragment implements MediaPlayer.OnPrepared
     List<String> name_list;
 
 
+    private Socket live_socket;
+
+
     AddMemberDialog addMemberDialog;
 
     NewNameDialog newNameDialog;
@@ -77,6 +78,10 @@ public class LiveFragment extends BaseFragment implements MediaPlayer.OnPrepared
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        HomeyCam homeyCam = (HomeyCam) getActivity().getApplication();
+        live_socket = homeyCam.getSocket();
+        live_socket.connect();
     }
 
     @Override
@@ -84,6 +89,7 @@ public class LiveFragment extends BaseFragment implements MediaPlayer.OnPrepared
         View view = inflater.inflate(R.layout.fragment_second, container, false);
 
 
+        Log.e("live_socket_1", "--" + live_socket.connected());
         imageView = view.findViewById(R.id.video_view);
         video_player_view = view.findViewById(R.id.video_player_view);
 
@@ -107,7 +113,7 @@ public class LiveFragment extends BaseFragment implements MediaPlayer.OnPrepared
             @Override
             public void onClick(View v) {
 
-                if (local_socket != null) {
+                if (live_socket != null) {
                     checkLiveVideo();
                 }
 
@@ -173,7 +179,11 @@ public class LiveFragment extends BaseFragment implements MediaPlayer.OnPrepared
 
     public void emitallfaces() {
 
-        if (local_socket != null) {
+
+        if (live_socket != null) {
+
+
+            Log.e("live_socket_2", "--" + live_socket.connected());
 
             show_loader("Loading");
 
@@ -187,7 +197,7 @@ public class LiveFragment extends BaseFragment implements MediaPlayer.OnPrepared
                 e.printStackTrace();
             }
 
-            local_socket.emit("fetchall", faces_object);
+            live_socket.emit("fetchall", faces_object);
 
             getAllfaces();
         }
@@ -196,8 +206,8 @@ public class LiveFragment extends BaseFragment implements MediaPlayer.OnPrepared
     private void getAllfaces() {
 
 
-        if (local_socket != null) {
-            local_socket.on("fetchall", new Emitter.Listener() {
+        if (live_socket != null) {
+            live_socket.on("fetchall", new Emitter.Listener() {
                 @Override
                 public void call(Object... args) {
 
@@ -284,14 +294,14 @@ public class LiveFragment extends BaseFragment implements MediaPlayer.OnPrepared
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        local_socket.emit("ondeamandstream", jsonObject);
+        live_socket.emit("ondeamandstream", jsonObject);
         getLiveVideo();
 
     }
 
     private void getLiveVideo() {
 
-        local_socket.on("ondeamandstream", new Emitter.Listener() {
+        live_socket.on("ondeamandstream", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
 
@@ -394,7 +404,7 @@ public class LiveFragment extends BaseFragment implements MediaPlayer.OnPrepared
 
                 newNameDialog.dismiss();
                 if (status) {
-//                    updateName(msg);
+                    updateName(msg);
                 }
             }
         });
@@ -412,7 +422,9 @@ public class LiveFragment extends BaseFragment implements MediaPlayer.OnPrepared
             e.printStackTrace();
         }
 
-        local_socket.emit("updatename", home_face_object);
+        Log.e("home_face_object", home_face_object.toString());
+
+        live_socket.emit("updatename", home_face_object);
         listenupdate();
 
     }
@@ -420,7 +432,7 @@ public class LiveFragment extends BaseFragment implements MediaPlayer.OnPrepared
     private void listenupdate() {
 
 
-        local_socket.on("updatename", new Emitter.Listener() {
+        live_socket.on("updatename", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
 

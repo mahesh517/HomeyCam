@@ -3,8 +3,11 @@ package com.app.homeycam.Activities;
 import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.View;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -17,6 +20,7 @@ import com.app.homeycam.Fragments.SettingsFragment;
 import com.app.homeycam.R;
 import com.github.nkzawa.emitter.Emitter;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -48,18 +52,65 @@ public class DashBoard extends BottomBarHolderActivity implements EventsFragment
         long time = 567648000 - System.currentTimeMillis();
         Log.e("current", String.valueOf(time));
 
-        checkFaces();
+        getProductInfo();
+
     }
 
-    private void checkFaces() {
+    private void getProductInfo() {
 
-        local_socket.on("fetchall", new Emitter.Listener() {
+        JSONObject jsonObject = new JSONObject();
+
+        try {
+            jsonObject.put("product_id", loginPrefManager.getStringValue("product_id"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        local_socket.emit("fetchProductInfo", jsonObject);
+
+        productDetails();
+    }
+
+    private void productDetails() {
+
+        local_socket.on("fetchProductInfo", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
 
                 JSONObject jsonObject = (JSONObject) args[0];
 
-                Log.e("jsonObject", jsonObject.toString());
+                Handler mHandler = new Handler(Looper.getMainLooper());
+                mHandler.post(new Runnable() {
+
+                    @Override
+                    public void run() {
+
+                        try {
+                            JSONObject data = jsonObject.getJSONObject("data");
+
+                            JSONObject result = data.getJSONObject("result");
+
+                            JSONObject settings = result.getJSONObject("settings");
+
+                            Log.e("settings", settings.toString());
+
+
+                            String recording_start = settings.getString("recording_start");
+                            String recording_end = settings.getString("recording_end");
+                            String status = settings.getString("recording_status");
+
+
+                            loginPrefManager.setStringValue("recording_start", recording_start);
+                            loginPrefManager.setStringValue("recording_end", recording_end);
+                            loginPrefManager.setStringValue("recording_status", status);
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
             }
         });
     }
