@@ -3,10 +3,10 @@ package com.app.homeycam.Activities;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v7.app.AppCompatActivity;
-import android.support.annotation.NonNull;
-import android.view.MenuItem;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.MediaController;

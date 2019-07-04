@@ -1,14 +1,12 @@
 package com.app.homeycam.Activities;
 
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.widget.ArrayAdapter;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.homeycam.Adapters.DeviceAdapter;
-import com.app.homeycam.CustomeViews.CustomBottomView.BottomBarHolderActivity;
 import com.app.homeycam.CustomeViews.SimpleDividerItemDecoration;
 import com.app.homeycam.LocalizationActivity.LocalizationActivity;
 import com.app.homeycam.ModelClass.UserDevices.ProductAccess;

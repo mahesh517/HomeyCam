@@ -1,11 +1,12 @@
 package com.app.homeycam.CustomeViews.CustomBottomView;
 
-import android.app.FragmentManager;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -103,6 +104,8 @@ public class BottomBarHolderActivity extends LocalizationActivity implements Bot
                 product_spinner.setVisibility(View.GONE);
                 toolbar_txt.setText("EVENTS");
                 fragment = mNavigationPageList.get(0).getFragment();
+
+                loginPrefManager.setStringValue("live_update","0");
                 break;
             case BottomNavigationBar.MENU_BAR_2:
                 product_spinner.setOnItemSelectedListener(BottomBarHolderActivity.this);
@@ -110,12 +113,13 @@ public class BottomBarHolderActivity extends LocalizationActivity implements Bot
                 product_spinner.setVisibility(View.VISIBLE);
                 toolbar_txt.setText("LIVE");
                 fragment = mNavigationPageList.get(1).getFragment();
-                getProducts();
+
                 break;
             case BottomNavigationBar.MENU_BAR_3:
                 toolbar_txt.setVisibility(View.VISIBLE);
                 product_spinner.setVisibility(View.GONE);
                 toolbar_txt.setText("SETTINGS");
+                loginPrefManager.setStringValue("live_update","0");
                 fragment = mNavigationPageList.get(2).getFragment();
                 break;
 

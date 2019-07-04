@@ -2,8 +2,8 @@ package com.app.homeycam.Fragments;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -11,12 +11,7 @@ import com.app.homeycam.ProgressBar.Loader;
 import com.app.homeycam.ServiceApi.APIServiceFactory;
 import com.app.homeycam.ServiceApi.ApiService;
 import com.app.homeycam.Utils.LoginPrefManager;
-import com.github.nkzawa.emitter.Emitter;
-import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
-import com.google.gson.Gson;
-
-import java.net.URISyntaxException;
 
 
 public class BaseFragment extends Fragment {

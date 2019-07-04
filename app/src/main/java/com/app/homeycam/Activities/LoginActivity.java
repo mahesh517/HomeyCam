@@ -3,24 +3,19 @@ package com.app.homeycam.Activities;
 import android.annotation.SuppressLint;
 import android.graphics.PointF;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.Magnifier;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.app.homeycam.CustomeViews.ZoomLayout;
 import com.app.homeycam.LocalizationActivity.LocalizationActivity;
 import com.app.homeycam.ModelClass.Login.Data;
 import com.app.homeycam.ModelClass.Login.Login;
@@ -30,7 +25,6 @@ import com.app.homeycam.Rawheaders.Login.LoginData;
 import com.google.gson.Gson;
 
 import java.util.List;
-import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;

@@ -195,7 +195,7 @@
                 android:textSize="@dimen/text_size_18"
                 android:textStyle="normal" />
 
-            <android.support.v7.widget.AppCompatSpinner
+            <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/wifi_edt"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
@@ -222,7 +222,7 @@
                 android:textSize="@dimen/text_size_18"
                 android:textStyle="normal" />
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:passwordToggleEnabled="true"
@@ -243,7 +243,7 @@
                     android:textSize="@dimen/text_size_18"
                     android:textStyle="normal" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
 
             <TextView

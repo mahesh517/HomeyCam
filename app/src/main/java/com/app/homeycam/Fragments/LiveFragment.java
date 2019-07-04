@@ -6,8 +6,6 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +15,9 @@ import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
+
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.homeycam.Activities.UserActivty;
 import com.app.homeycam.Adapters.FacesAdapter;
@@ -79,6 +80,7 @@ public class LiveFragment extends BaseFragment implements MediaPlayer.OnPrepared
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Log.e("onCreate", "---");
         HomeyCam homeyCam = (HomeyCam) getActivity().getApplication();
         live_socket = homeyCam.getSocket();
         live_socket.connect();
@@ -88,6 +90,8 @@ public class LiveFragment extends BaseFragment implements MediaPlayer.OnPrepared
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_second, container, false);
 
+
+        Log.e("onCreateView", "onCreateView");
 
         Log.e("live_socket_1", "--" + live_socket.connected());
         imageView = view.findViewById(R.id.video_view);
@@ -202,6 +206,37 @@ public class LiveFragment extends BaseFragment implements MediaPlayer.OnPrepared
             getAllfaces();
         }
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        Log.e("onPause", "onPause");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e("onResume", "onResume");
+
+        String live_update = loginPrefManager.getStringValue("live_update");
+
+
+        Log.e("live_update", "--" + live_update);
+
+        if (!live_update.equalsIgnoreCase("") && live_update.equalsIgnoreCase("0")) {
+            loginPrefManager.setStringValue("live_update", "1");
+            emitallfaces();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.e("onStop", "onStop");
+
+    }
+
 
     private void getAllfaces() {
 
@@ -343,6 +378,17 @@ public class LiveFragment extends BaseFragment implements MediaPlayer.OnPrepared
         });
 
     }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        Log.e("onStart", "onStart");
+
+        Log.e("visible", "--" + getUserVisibleHint());
+    }
+
 
     @Override
     public void onAttach(Context context) {

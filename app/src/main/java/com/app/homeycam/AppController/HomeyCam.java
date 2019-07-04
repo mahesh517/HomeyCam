@@ -1,19 +1,16 @@
 package com.app.homeycam.AppController;
 
-import android.app.Application;
 import android.content.Context;
 import android.os.StrictMode;
-import android.support.multidex.MultiDex;
-import android.support.multidex.MultiDexApplication;
+import androidx.multidex.MultiDex;
+import androidx.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.app.homeycam.ServiceApi.APIServiceFactory;
 import com.app.homeycam.Utils.LoginPrefManager;
-import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 import com.google.firebase.FirebaseApp;
-import com.google.gson.Gson;
 
 import java.net.URISyntaxException;
 

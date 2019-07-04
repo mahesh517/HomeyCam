@@ -5,13 +5,11 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Handler;
 import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.app.homeycam.FCM.MyFirebaseInstanceIDService;
-import com.app.homeycam.LocalizationActivity.LocalizationActivity;
-import com.app.homeycam.PermissionChecker.PermissionHelper;
 import com.app.homeycam.R;
 import com.app.homeycam.Utils.LoginPrefManager;
 import com.google.gson.Gson;
@@ -72,7 +70,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
             }
         };
-
+        loginPrefManager.setStringValue("live_update", "1");
 
         checkWifiPermissions();
 

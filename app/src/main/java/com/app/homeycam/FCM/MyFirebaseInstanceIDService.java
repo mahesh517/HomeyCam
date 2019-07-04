@@ -16,7 +16,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
 
     @Override
-    @android.support.annotation.WorkerThread
+    @androidx.annotation.WorkerThread
     public void onTokenRefresh() {
 
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();

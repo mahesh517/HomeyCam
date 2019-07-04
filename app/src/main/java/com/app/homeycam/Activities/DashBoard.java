@@ -1,19 +1,16 @@
 package com.app.homeycam.Activities;
 
-import android.annotation.SuppressLint;
-import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v4.content.ContextCompat;
+
+import androidx.core.content.ContextCompat;
+
 import android.util.Log;
-import android.view.View;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.app.homeycam.CustomeViews.CustomBottomView.BottomBarHolderActivity;
 import com.app.homeycam.CustomeViews.CustomBottomView.NavigationPage;
-import com.app.homeycam.CustomeViews.RangeTimePickerDialog;
 import com.app.homeycam.Fragments.EventsFragment;
 import com.app.homeycam.Fragments.LiveFragment;
 import com.app.homeycam.Fragments.SettingsFragment;
@@ -24,7 +21,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class DashBoard extends BottomBarHolderActivity implements EventsFragment.OnFragmentInteractionListener, LiveFragment.OnFragmentInteractionListener {
@@ -49,8 +45,7 @@ public class DashBoard extends BottomBarHolderActivity implements EventsFragment
         super.setupBottomBarHolderActivity(navigationPages);
 
 
-        long time = 567648000 - System.currentTimeMillis();
-        Log.e("current", String.valueOf(time));
+        Log.e("current", loginPrefManager.getUserId());
 
         getProductInfo();
 

@@ -1,7 +1,7 @@
 package com.app.homeycam.CustomeViews.CustomBottomView;
 
 import android.graphics.drawable.Drawable;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 /**
  * A base class that holds the title, icon and an instance of the fragment to be shown as each

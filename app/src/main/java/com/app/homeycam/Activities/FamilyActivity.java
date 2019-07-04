@@ -4,24 +4,21 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 
-import com.app.homeycam.Adapters.FacesAdapter;
 import com.app.homeycam.Adapters.FamilyAdapter;
 import com.app.homeycam.CustomDailogs.NewNameDialog;
 import com.app.homeycam.CustomeViews.SimpleDividerItemDecoration;
 import com.app.homeycam.LocalizationActivity.LocalizationActivity;
 import com.app.homeycam.R;
 import com.github.nkzawa.emitter.Emitter;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;

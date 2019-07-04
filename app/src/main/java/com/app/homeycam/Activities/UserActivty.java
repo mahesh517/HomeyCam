@@ -1,6 +1,7 @@
 package com.app.homeycam.Activities;
 
 import android.app.Activity;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,14 +12,17 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.app.homeycam.LocalizationActivity.LocalizationActivity;
-import com.app.homeycam.ModelClass.Login.User;
+import com.app.homeycam.ModelClass.Settings.FaceSettings;
 import com.app.homeycam.R;
+import com.app.homeycam.Rawheaders.Settings.FaceNotifications;
 import com.app.homeycam.ServiceApi.APIServiceFactory;
 import com.bumptech.glide.Glide;
 import com.github.nkzawa.emitter.Emitter;
-import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
+import com.google.gson.Gson;
+import com.suke.widget.SwitchButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,13 +33,16 @@ import java.util.Calendar;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import in.mayanknagwanshi.imagepicker.ImageSelectActivity;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public class UserActivty extends LocalizationActivity implements TimePickerDialog.OnTimeSetListener {
+public class UserActivty extends LocalizationActivity {
 
 
     TextView delete_tv, history;
 
-    String homeImage_id, status, start, endTIme, person_name;
+    String homeImage_id, status, start, start_total_time, end_total_time, endTIme, person_name;
 
     CircleImageView user_pic;
 
@@ -44,6 +51,11 @@ public class UserActivty extends LocalizationActivity implements TimePickerDialo
     JSONObject userObject;
 
     int timer_position = 0;
+
+    int start_hour, start_min, end_hour, end_min;
+
+    SwitchButton switch_button;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,6 +71,8 @@ public class UserActivty extends LocalizationActivity implements TimePickerDialo
         end_time_tv = findViewById(R.id.to_time);
         history = findViewById(R.id.history);
         user_name = findViewById(R.id.user_name);
+
+        switch_button = findViewById(R.id.switch_button);
 
 
         if (bundle != null) {
@@ -101,10 +115,36 @@ public class UserActivty extends LocalizationActivity implements TimePickerDialo
 
                 if (userObject.has("settings")) {
 
+
                     JSONObject settings = userObject.getJSONObject("settings");
+
+                    Log.e("settings", settings.toString());
+
                     status = settings.getString("notification_status");
                     start = settings.getString("notification_start");
                     endTIme = settings.getString("notification_end");
+
+
+                    String[] start_hours = start.split(":");
+                    String[] end_hours = start.split(":");
+
+                    start_hour = Integer.parseInt(start_hours[0]);
+                    start_min = Integer.parseInt(start_hours[1]);
+                    end_hour = Integer.parseInt(end_hours[0]);
+                    end_min = Integer.parseInt(end_hours[1]);
+
+                    if (start_hour >= 12) {
+                        start_total_time = start + " P.M";
+                    } else if (start_hour < 12) {
+                        start_total_time = start + " A.M";
+
+                    }
+                    if (end_hour >= 12) {
+                        end_total_time = endTIme + " P.M";
+                    } else if (end_hour < 12) {
+                        end_total_time = endTIme + " A.M";
+
+                    }
 
                     start_time_tv.setText(start);
                     end_time_tv.setText(endTIme);
@@ -135,7 +175,14 @@ public class UserActivty extends LocalizationActivity implements TimePickerDialo
             @Override
             public void onClick(View view) {
                 timer_position = 1;
-                showTimerDialog();
+                showTImerPicker(start_time_tv);
+            }
+        });
+        end_time_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                timer_position = 2;
+                showTImerPicker(end_time_tv);
             }
         });
 
@@ -157,23 +204,61 @@ public class UserActivty extends LocalizationActivity implements TimePickerDialo
                 startActivityForResult(intent, 1213);
             }
         });
+
+        switch_button.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(SwitchButton view, boolean isChecked) {
+                updateNotifications();
+            }
+        });
     }
 
-    private void showTimerDialog() {
+    private void showTImerPicker(TextView textView) {
+        Calendar mcurrentTime = Calendar.getInstance();
 
 
-        TimePickerDialog tpd = new TimePickerDialog();
+        int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+        int minute = mcurrentTime.get(Calendar.MINUTE);
 
-        Calendar now = Calendar.getInstance();
-
-        tpd = TimePickerDialog.newInstance(
-                UserActivty.this,
-                now.get(Calendar.HOUR_OF_DAY),
-                now.get(Calendar.MINUTE),
-                true);
+        if (timer_position == 2) {
 
 
+            String[] start_hours = start.split(":");
 
+            hour = Integer.parseInt(start_hours[0]);
+            minute = Integer.parseInt(start_hours[1]);
+
+        }
+        TimePickerDialog timePickerDialog = new TimePickerDialog(UserActivty.this,
+                new TimePickerDialog.OnTimeSetListener() {
+
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay,
+                                          int minute) {
+
+                        if (timer_position == 1) {
+
+                            if (hourOfDay >= 12) {
+                                start_total_time = hourOfDay + ":" + minute + " P.M";
+                            } else {
+                                start_total_time = hourOfDay + ":" + minute + " A.M";
+                            }
+                        }
+                        if (timer_position == 2) {
+                            if (hourOfDay >= 12) {
+                                end_total_time = hourOfDay + ":" + minute + "P.M";
+                            } else {
+                                end_total_time = hourOfDay + ":" + minute + "A.M";
+                            }
+                        }
+
+
+                        textView.setText(hourOfDay + ":" + minute);
+
+                        updateNotifications();
+                    }
+                }, hour, minute, false);
+        timePickerDialog.show();
     }
 
     private void deleteface() {
@@ -230,9 +315,9 @@ public class UserActivty extends LocalizationActivity implements TimePickerDialo
     }
 
     public static String getFileToByte(String filePath) {
-        Bitmap bmp = null;
-        ByteArrayOutputStream bos = null;
-        byte[] bt = null;
+        Bitmap bmp;
+        ByteArrayOutputStream bos;
+        byte[] bt;
         String encodeString = null;
         try {
             bmp = BitmapFactory.decodeFile(filePath);
@@ -249,6 +334,8 @@ public class UserActivty extends LocalizationActivity implements TimePickerDialo
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+
+
         finish();
     }
 
@@ -293,12 +380,37 @@ public class UserActivty extends LocalizationActivity implements TimePickerDialo
 
     }
 
-    @Override
-    public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
 
-        if (timer_position == 0) {
-            start_time_tv.setText(hourOfDay + ":" + minute);
+    private void updateNotifications() {
+
+        FaceNotifications faceNotifications = new FaceNotifications();
+
+        faceNotifications.setHomeimage_id(homeImage_id);
+
+        faceNotifications.setNotification_start(start_total_time);
+        faceNotifications.setNotification_end(end_total_time);
+
+
+        if (switch_button.isChecked()) {
+            faceNotifications.setNotification_status("on");
+        } else {
+            faceNotifications.setNotification_status("off");
         }
 
+
+        apiService.updateFacesettings(faceNotifications).enqueue(new Callback<FaceSettings>() {
+            @Override
+            public void onResponse(Call<FaceSettings> call, Response<FaceSettings> response) {
+                loginPrefManager.setStringValue("live_update", "0");
+            }
+
+            @Override
+            public void onFailure(Call<FaceSettings> call, Throwable t) {
+
+            }
+        });
+
     }
+
+
 }
