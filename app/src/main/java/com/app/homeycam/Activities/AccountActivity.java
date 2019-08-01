@@ -81,6 +81,8 @@ public class AccountActivity extends LocalizationActivity {
 
             }
         });
+
+        changePasswordDialog.show();
     }
 
     private void updatePassword() {

@@ -3,9 +3,11 @@ package com.app.homeycam.Activities;
 import android.annotation.SuppressLint;
 import android.graphics.PointF;
 import android.os.Build;
+
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.app.homeycam.AppController.HomeyCam;
 import com.app.homeycam.LocalizationActivity.LocalizationActivity;
 import com.app.homeycam.ModelClass.Login.Data;
 import com.app.homeycam.ModelClass.Login.Login;
@@ -182,6 +185,9 @@ public class LoginActivity extends LocalizationActivity {
                         loginPrefManager.setUserId(data.getUser().getId());
                         loginPrefManager.setStringValue("user_email", email_edt.getText().toString());
 
+                        HomeyCam homeyCam = (HomeyCam) getApplication();
+
+                        homeyCam.connectSocket();
 
                         List<ProductAccess> productAccesses = data.getUser().getProductAccess();
                         if (productAccesses != null && productAccesses.size() > 0) {
@@ -191,6 +197,8 @@ public class LoginActivity extends LocalizationActivity {
 
                             goToActivity(LoginActivity.this, DashBoard.class, null);
                         } else {
+
+                            loginPrefManager.setWifistatus("setup");
                             goToActivity(LoginActivity.this, HomeActivity.class, null);
                         }
 

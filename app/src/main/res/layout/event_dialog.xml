@@ -17,8 +17,9 @@
 
         <TextView
             android:id="@+id/play_video"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:padding="@dimen/activity_horizantal_margin"
             android:text="Play Video"
             android:textColor="@color/button_color"
@@ -32,8 +33,9 @@
 
         <TextView
             android:id="@+id/download_video"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:padding="@dimen/activity_horizantal_margin"
             android:text="Download Video"
             android:textColor="@color/button_color"
@@ -48,8 +50,9 @@
 
         <TextView
             android:id="@+id/btn_cancel"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:padding="@dimen/activity_horizantal_margin"
             android:text="Cancel"
             android:textColor="@color/button_color"

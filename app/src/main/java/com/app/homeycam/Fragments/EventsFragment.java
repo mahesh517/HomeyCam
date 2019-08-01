@@ -11,6 +11,7 @@ import android.os.Looper;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -197,16 +198,18 @@ public class EventsFragment extends BaseFragment {
                     total_array = events.getJSONArray("all");
 
 
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
 
-                            setData();
+                                setData();
 
-                            check_live_events();
-                        }
-                    });
+                                check_live_events();
+                            }
+                        });
 
+                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -2,6 +2,7 @@ package com.app.homeycam.ServiceApi;
 
 
 import com.app.homeycam.ModelClass.AddGuestApi.AddGuest;
+import com.app.homeycam.ModelClass.DeviceUpdate.DeviceNameUpdate;
 import com.app.homeycam.ModelClass.GuestUserApi.GuestUsers;
 import com.app.homeycam.ModelClass.Login.Login;
 import com.app.homeycam.ModelClass.PasswordApi.PasswordUpdate;
@@ -13,6 +14,7 @@ import com.app.homeycam.Rawheaders.AddGuestUser.AddGuestUserData;
 import com.app.homeycam.Rawheaders.ForgotPassword.ChangePasswordData;
 import com.app.homeycam.Rawheaders.Guest.GuestData;
 import com.app.homeycam.Rawheaders.Login.LoginData;
+import com.app.homeycam.Rawheaders.ProductUpdate.DeviceChangeName;
 import com.app.homeycam.Rawheaders.Register.RegisterData;
 import com.app.homeycam.Rawheaders.Settings.FaceNotifications;
 
@@ -49,5 +51,8 @@ public interface ApiService {
 
 
     @POST("auth/changepassword")
-    Call<PasswordUpdate> updatePassword(@Header("x-access-token") String token,@Body ChangePasswordData changePasswordData);
+    Call<PasswordUpdate> updatePassword(@Header("x-access-token") String token, @Body ChangePasswordData changePasswordData);
+
+    @POST("product/addproduct/{product_id}")
+    Call<DeviceNameUpdate> updateDeviceName(@Header("x-access-token") String token, @Body DeviceChangeName deviceChangeName, @Path("product_id") String product_id);
 }

@@ -1,8 +1,15 @@
 package com.app.homeycam.Activities;
 
+import com.app.homeycam.CustomDailogs.ChangeDeviceNameDialog;
+import com.app.homeycam.ModelClass.DeviceUpdate.DeviceNameUpdate;
+import com.app.homeycam.Rawheaders.ProductUpdate.DeviceChangeName;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
+import android.util.Log;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,6 +20,9 @@ import com.app.homeycam.ModelClass.UserDevices.ProductAccess;
 import com.app.homeycam.ModelClass.UserDevices.User;
 import com.app.homeycam.ModelClass.UserDevices.UserDevices;
 import com.app.homeycam.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +39,12 @@ public class DevicesActivity extends LocalizationActivity {
 
     DeviceAdapter deviceAdapter;
     FloatingActionButton add_user;
+
+    String product_id;
+
+    DeviceChangeName deviceChangeName;
+
+    ChangeDeviceNameDialog changeDeviceNameDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,10 +99,20 @@ public class DevicesActivity extends LocalizationActivity {
                                 }
                             }
 
-                            deviceAdapter = new DeviceAdapter(DevicesActivity.this, products, new DeviceAdapter.ListPlayerAdapterListener() {
+                            deviceAdapter = new DeviceAdapter(DevicesActivity.this, products, new DeviceAdapter.DeviceAdapterInterface() {
                                 @Override
-                                public void onClickListener(int pos, String user_id) {
+                                public void onClickListener(int pos, int user_id) {
 
+                                    if (pos == 1) {
+                                        product_id = productAccesses.get(user_id).getProductId().getId();
+                                        showDialog();
+                                    } else if (pos == 2) {
+                                        loginPrefManager.setWifistatus("change");
+                                        goToActivity(DevicesActivity.this, HomeActivity.class, null);
+                                    } else if (pos == 3) {
+                                        loginPrefManager.setWifistatus("reset");
+                                        goToActivity(DevicesActivity.this, HomeActivity.class, null);
+                                    }
                                 }
                             });
 
@@ -106,6 +132,65 @@ public class DevicesActivity extends LocalizationActivity {
         } catch (Exception e) {
 
         }
+    }
+
+    private void showDialog() {
+
+
+        changeDeviceNameDialog = new ChangeDeviceNameDialog(DevicesActivity.this, R.style.AppTheme, new ChangeDeviceNameDialog.DeviceNameInterface() {
+            @Override
+            public void onName(String name) {
+
+                deviceChangeName = new DeviceChangeName();
+
+                deviceChangeName.setProduct_name(name);
+                updateDeviceName();
+
+
+            }
+        });
+
+        changeDeviceNameDialog.show();
+    }
+
+    private void updateDeviceName() {
+
+        try {
+
+            show_loader("");
+            apiService.updateDeviceName(loginPrefManager.getUserToken(), deviceChangeName, product_id).enqueue(new Callback<DeviceNameUpdate>() {
+                @Override
+                public void onResponse(Call<DeviceNameUpdate> call, Response<DeviceNameUpdate> response) {
+
+                    dismiss_loader();
+
+                    loginPrefManager.setDeviceUpdated(true);
+                    getProducts();
+                }
+
+                @Override
+                public void onFailure(Call<DeviceNameUpdate> call, Throwable t) {
+
+                }
+            });
+
+        } catch (Exception e) {
+
+        }
+    }
+
+    private void deleteDevice() {
+
+        JSONObject jsonObject = new JSONObject();
+
+        try {
+            jsonObject.put("product_id", loginPrefManager.getStringValue("product_id"));
+            jsonObject.put("user_id", loginPrefManager.getUserId());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        local_socket.emit("deleteProduct", jsonObject);
     }
 
 }

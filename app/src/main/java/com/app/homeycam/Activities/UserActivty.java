@@ -344,10 +344,11 @@ public class UserActivty extends LocalizationActivity {
         JSONObject jsonObject = new JSONObject();
 
         try {
-            jsonObject.put("product_id", loginPrefManager.getStringValue("product_id"));
-            jsonObject.put("type_of_image", "single");
-            jsonObject.put("person_name", person_name);
+//            jsonObject.put("product_id", loginPrefManager.getStringValue("product_id"));
+////            jsonObject.put("type_of_image", "single");
+////            jsonObject.put("person_name", person_name);
             jsonObject.put("buffer", fileToByte);
+            jsonObject.put("homeimage_id", homeImage_id);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -355,12 +356,12 @@ public class UserActivty extends LocalizationActivity {
 
         Log.e("faceRegistration", jsonObject.toString());
 
-        local_socket.emit("faceRegistrationFromGallery", jsonObject);
+        local_socket.emit("faceAddingFromGallery", jsonObject);
     }
 
     private void listenUpdate_image() {
 
-        local_socket.on("faceRegistrationFromGallery", new Emitter.Listener() {
+        local_socket.on("faceAddingFromGallery", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
 
@@ -371,6 +372,8 @@ public class UserActivty extends LocalizationActivity {
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
+
+                        loginPrefManager.setStringValue("live_update", "0");
                         finish();
                     }
                 });

@@ -290,4 +290,22 @@ public class LoginPrefManager {
     }
 
 
+    public void setDeviceUpdated(boolean status) {
+        pref.edit().putBoolean("device_name_update", status).apply();
+    }
+
+    public boolean getDeviceUpdated() {
+        return pref.getBoolean("device_name_update", false);
+    }
+
+
+    public void setWifistatus(String status) {
+
+        pref.edit().putString("status", status).apply();
+    }
+
+    public String getWifistatus() {
+        return pref.getString("status", "");
+    }
+
 }

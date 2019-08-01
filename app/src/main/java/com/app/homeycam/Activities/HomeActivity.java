@@ -28,6 +28,7 @@ import com.app.homeycam.LocalizationActivity.LocalizationActivity;
 import com.app.homeycam.R;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.Socket;
+import com.google.gson.Gson;
 import com.google.zxing.WriterException;
 
 import org.json.JSONException;
@@ -74,16 +75,18 @@ public class HomeActivity extends LocalizationActivity {
 
     private Socket mSocket;
 
+    String last_activity;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        initWifi();
+        registerReceiver(receiverWifi, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        last_activity = loginPrefManager.getWifistatus();
 
-
-
-
-//        goToActivity(HomeActivity.this, DashBoard.class, null);
+        Log.e("last_activity", last_activity);
 
         initView();
     }
@@ -121,7 +124,39 @@ public class HomeActivity extends LocalizationActivity {
 
         wifi_password = findViewById(R.id.wifi_password_edt);
         cam_location = findViewById(R.id.location_edt);
+
+        initScreens();
         onClickevnets();
+
+    }
+
+    private void initScreens() {
+
+
+        if (last_activity.equalsIgnoreCase("change")) {
+
+            slide_one_view.setVisibility(View.GONE);
+            slide_second_view.setVisibility(View.GONE);
+            slide_third.setVisibility(View.VISIBLE);
+
+            sb = new StringBuilder();
+            wifiList = mainWifi.getScanResults();
+
+            wifi_name = new ArrayList<>();
+
+            for (int i = 0; i < wifiList.size(); i++) {
+                sb.append(new Integer(i + 1).toString() + ".");
+                sb.append((wifiList.get(i)).SSID);
+                sb.append("\n");
+                wifi_name.add(wifiList.get(i).SSID);
+            }
+
+            Log.e("wifi_name", new Gson().toJson(wifi_name));
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, wifi_name);
+
+            wifi_list.setAdapter(adapter);
+        }
+
 
     }
 
@@ -176,7 +211,7 @@ public class HomeActivity extends LocalizationActivity {
                 stringBuilder.append(",");
                 stringBuilder.append(loginPrefManager.getUserId());
                 stringBuilder.append(",");
-                stringBuilder.append("setup");
+                stringBuilder.append(loginPrefManager.getWifistatus());
                 stringBuilder.append(",");
                 stringBuilder.append(timeZone.getID());
 
@@ -217,6 +252,9 @@ public class HomeActivity extends LocalizationActivity {
             }
 
 
+
+
+
         }
 
     }
@@ -233,8 +271,7 @@ public class HomeActivity extends LocalizationActivity {
     public void onResume() {
         super.onResume();
 
-        initWifi();
-        registerReceiver(receiverWifi, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+
     }
 
 

@@ -105,7 +105,7 @@ public class BottomBarHolderActivity extends LocalizationActivity implements Bot
                 toolbar_txt.setText("EVENTS");
                 fragment = mNavigationPageList.get(0).getFragment();
 
-                loginPrefManager.setStringValue("live_update","0");
+                loginPrefManager.setStringValue("live_update", "0");
                 break;
             case BottomNavigationBar.MENU_BAR_2:
                 product_spinner.setOnItemSelectedListener(BottomBarHolderActivity.this);
@@ -119,7 +119,7 @@ public class BottomBarHolderActivity extends LocalizationActivity implements Bot
                 toolbar_txt.setVisibility(View.VISIBLE);
                 product_spinner.setVisibility(View.GONE);
                 toolbar_txt.setText("SETTINGS");
-                loginPrefManager.setStringValue("live_update","0");
+                loginPrefManager.setStringValue("live_update", "0");
                 fragment = mNavigationPageList.get(2).getFragment();
                 break;
 
@@ -132,6 +132,19 @@ public class BottomBarHolderActivity extends LocalizationActivity implements Bot
             fragmentTransaction.commit();
         }
 
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+
+        if (loginPrefManager.getDeviceUpdated()) {
+            getProducts();
+
+            loginPrefManager.setDeviceUpdated(false);
+        }
     }
 
     private void getProducts() {

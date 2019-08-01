@@ -1,8 +1,10 @@
 package com.app.homeycam.Adapters;
 
 import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +20,11 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceHold
 
     Context context;
     List<String> products;
-    private ListPlayerAdapterListener listPlayerAdapterListener;
+    private DeviceAdapterInterface deviceAdapterInterface;
 
-    public DeviceAdapter(Context context, List<String> products, ListPlayerAdapterListener listPlayerAdapterListener) {
+    public DeviceAdapter(Context context, List<String> products, DeviceAdapterInterface deviceAdapterInterface) {
         this.context = context;
-        this.listPlayerAdapterListener = listPlayerAdapterListener;
+        this.deviceAdapterInterface = deviceAdapterInterface;
         this.products = products;
     }
 
@@ -41,6 +43,33 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceHold
 
         holder.guest_name.setText(products.get(position));
 
+        holder.change_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (deviceAdapterInterface != null) {
+                    deviceAdapterInterface.onClickListener(1, position);
+                }
+            }
+        });
+
+        holder.change_wifi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (deviceAdapterInterface != null) {
+                    deviceAdapterInterface.onClickListener(2, position);
+                }
+            }
+        });
+        holder.reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (deviceAdapterInterface != null) {
+                    deviceAdapterInterface.onClickListener(3, position);
+                }
+            }
+        });
+
 
     }
 
@@ -52,7 +81,7 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceHold
 
     public class DeviceHolder extends RecyclerView.ViewHolder {
 
-        TextView guest_name;
+        TextView guest_name, change_name, change_wifi, reset;
         ImageView card_iv;
 
         FrameLayout delete_view;
@@ -64,11 +93,14 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceHold
 
 
             guest_name = itemView.findViewById(R.id.device_name);
+            change_name = itemView.findViewById(R.id.change_name);
+            change_wifi = itemView.findViewById(R.id.change_wifi);
+            reset = itemView.findViewById(R.id.reset);
         }
     }
 
-    public interface ListPlayerAdapterListener {
-        void onClickListener(int pos, String user_id);
+    public interface DeviceAdapterInterface {
+        void onClickListener(int pos, int user_id);
     }
 
 

@@ -34,7 +34,6 @@
         android:hint="@string/email"
         android:inputType="textFilter|textEmailAddress|textNoSuggestions"
         android:paddingStart="@dimen/small_margin"
-        android:text="safeerk@gmail.com"
         android:textColorHint="@color/light_gray"
         android:textSize="@dimen/text_size_18"
         android:textStyle="bold" />
@@ -53,7 +52,6 @@
         android:hint="@string/password"
         android:inputType="textPassword"
         android:paddingStart="@dimen/small_margin"
-        android:text="skx12345"
         android:textColorHint="@color/light_gray"
         android:textSize="@dimen/text_size_18"
         android:textStyle="bold" />

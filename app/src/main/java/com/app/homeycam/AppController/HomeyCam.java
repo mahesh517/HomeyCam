@@ -43,7 +43,7 @@ public class HomeyCam extends MultiDexApplication {
         return applicationContext;
     }
 
-    private Socket connectSocket() {
+    public Socket connectSocket() {
 
 
         IO.Options opts = new IO.Options();
